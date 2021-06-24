@@ -1,0 +1,7 @@
+server:
+  servlet:
+    context-path: /trip
+
+api:
+  external:
+    base-url: http://assd-traffic-service-progetto2.router.default.svc.cluster.local/assdTrafficService/rest/
