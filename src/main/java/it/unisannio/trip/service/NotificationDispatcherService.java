@@ -12,13 +12,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
-public class NotificationDispatcher {
+public class NotificationDispatcherService {
 
     private final SimpMessagingTemplate template;
     private Set<String> listeners = new HashSet<>();
 
     @Autowired
-    public NotificationDispatcher(SimpMessagingTemplate template) {
+    public NotificationDispatcherService(SimpMessagingTemplate template) {
         this.template = template;
     }
 
@@ -40,7 +40,7 @@ public class NotificationDispatcher {
 
             template.convertAndSendToUser(
                     listener,
-                    "/notification/proposal",
+                    "/topic/proposal",
                     new TripNotifyDTO(1, 1, 1, 1),
                     headerAccessor.getMessageHeaders());
         }
