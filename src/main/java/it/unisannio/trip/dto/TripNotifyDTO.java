@@ -4,47 +4,47 @@ import java.io.Serializable;
 
 public class TripNotifyDTO implements Serializable {
 
-    private int tripId;
-    private int vehicleId;
-    private int waitTime;
-    private int tripTimeDuration;
+    private Integer tripId;
+    private Integer vehicleId;
+    private Integer waitTime;
+    private Integer tripTimeDuration;
 
-    public TripNotifyDTO(int tripId, int vehicleId, int waitTime, int tripTimeDuration) {
+    public TripNotifyDTO(Integer tripId, Integer vehicleId, Integer waitTime, Integer tripTimeDuration) {
         this.tripId = tripId;
         this.vehicleId = vehicleId;
         this.waitTime = waitTime;
         this.tripTimeDuration = tripTimeDuration;
     }
 
-    public int getTripId() {
+    public Integer getTripId() {
         return tripId;
     }
 
-    public void setTripId(int tripId) {
+    public void setTripId(Integer tripId) {
         this.tripId = tripId;
     }
 
-    public int getVehicleId() {
+    public Integer getVehicleId() {
         return vehicleId;
     }
 
-    public void setVehicleId(int vehicleId) {
+    public void setVehicleId(Integer vehicleId) {
         this.vehicleId = vehicleId;
     }
 
-    public int getWaitTime() {
+    public Integer getWaitTime() {
         return waitTime;
     }
 
-    public void setWaitTime(int waitTime) {
+    public void setWaitTime(Integer waitTime) {
         this.waitTime = waitTime;
     }
 
-    public int getTripTimeDuration() {
+    public Integer getTripTimeDuration() {
         return tripTimeDuration;
     }
 
-    public void setTripTimeDuration(int tripTimeDuration) {
+    public void setTripTimeDuration(Integer tripTimeDuration) {
         this.tripTimeDuration = tripTimeDuration;
     }
 }

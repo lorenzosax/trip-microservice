@@ -3,45 +3,46 @@ package it.unisannio.trip.controller;
 import it.unisannio.trip.dto.StationDTO;
 import it.unisannio.trip.dto.TripConfirmDTO;
 import it.unisannio.trip.dto.TripRequestDTO;
-import it.unisannio.trip.dto.internal.Coordinate;
-import it.unisannio.trip.service.TrafficService;
+import it.unisannio.trip.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class TripController {
 
-    private TrafficService trafficService;
+    private TripService tripService;
 
     @Autowired
-    public TripController(TrafficService trafficService) {
-        this.trafficService = trafficService;
+    public TripController(TripService tripService) {
+        this.tripService = tripService;
     }
 
     @GetMapping("/stations")
     public ResponseEntity<List<StationDTO>> getStations() {
-        return ResponseEntity.ok(new ArrayList<>());
+        List<StationDTO> stations = tripService.getStations();
+        return ResponseEntity.ok(stations);
     }
 
     @PostMapping("/request")
     public ResponseEntity tripRequest(@RequestBody TripRequestDTO requestDTO, @RequestParam("userId") Integer userId) {
-        List<Coordinate> shortestPath =
-                trafficService.shortestPath(requestDTO.getOsmidSource(), requestDTO.getOsmidDestination());
-        // costruire un oggetto che collega user e shortestPath
-        // mandare in topic questa richiesta
+        tripService.appendNewRequest(requestDTO, userId);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
     @PostMapping("/confirm")
     public ResponseEntity confirmTrip(@RequestBody TripConfirmDTO confirmDTO, @RequestParam("userId") Integer userId) {
-        // salvare in db la proposta accettata del trip
+        tripService.confirmTrip(confirmDTO.getTripId(), userId);
         return ResponseEntity.ok().build();
     }
 
+    /*@GetMapping("/pollingProposal")
+    public ResponseEntity<TripDTO> pollingProposal() {
+
+        return ResponseEntity.ok();
+    }*/
 }

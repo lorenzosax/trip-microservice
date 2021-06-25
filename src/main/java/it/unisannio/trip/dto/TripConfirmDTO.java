@@ -4,20 +4,20 @@ import java.io.Serializable;
 
 public class TripConfirmDTO implements Serializable {
 
-    private int tripId;
+    private Integer tripId;
 
     public TripConfirmDTO() {
     }
 
-    public TripConfirmDTO(int tripId) {
+    public TripConfirmDTO(Integer tripId) {
         this.tripId = tripId;
     }
 
-    public int getTripId() {
+    public Integer getTripId() {
         return tripId;
     }
 
-    public void setTripId(int tripId) {
+    public void setTripId(Integer tripId) {
         this.tripId = tripId;
     }
 }

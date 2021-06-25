@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Street implements Serializable {
 
-    private int linkId;
-    private int from;
-    private int to;
+    private Integer linkId;
+    private Integer from;
+    private Integer to;
     private Double length;
-    private int speedlimit;
+    private Integer speedlimit;
     private String name;
     private Double weight;
     private Double ffs;
@@ -18,7 +18,7 @@ public class Street implements Serializable {
     public Street() {
     }
 
-    public Street(int linkId, int from, int to, Double length, int speedlimit, String name, Double weight, Double ffs, List<Coordinate> coordinates) {
+    public Street(Integer linkId, Integer from, Integer to, Double length, Integer speedlimit, String name, Double weight, Double ffs, List<Coordinate> coordinates) {
         this.linkId = linkId;
         this.from = from;
         this.to = to;
@@ -30,27 +30,27 @@ public class Street implements Serializable {
         this.coordinates = coordinates;
     }
 
-    public int getLinkId() {
+    public Integer getLinkId() {
         return linkId;
     }
 
-    public void setLinkId(int linkId) {
+    public void setLinkId(Integer linkId) {
         this.linkId = linkId;
     }
 
-    public int getFrom() {
+    public Integer getFrom() {
         return from;
     }
 
-    public void setFrom(int from) {
+    public void setFrom(Integer from) {
         this.from = from;
     }
 
-    public int getTo() {
+    public Integer getTo() {
         return to;
     }
 
-    public void setTo(int to) {
+    public void setTo(Integer to) {
         this.to = to;
     }
 
@@ -62,11 +62,11 @@ public class Street implements Serializable {
         this.length = length;
     }
 
-    public int getSpeedlimit() {
+    public Integer getSpeedlimit() {
         return speedlimit;
     }
 
-    public void setSpeedlimit(int speedlimit) {
+    public void setSpeedlimit(Integer speedlimit) {
         this.speedlimit = speedlimit;
     }
 

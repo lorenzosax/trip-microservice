@@ -2,7 +2,7 @@ package it.unisannio.trip.dto;
 
 import java.io.Serializable;
 
-public class StationDTO implements Serializable {
+public class TripDTO implements Serializable {
 
-    Integer i;
+
 }

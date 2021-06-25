@@ -4,24 +4,24 @@ import java.util.List;
 
 public class Intersection{
 
-    private int osmid;
+    private Integer osmid;
     private Coordinate coordinate;
     private List<Street> streets;
 
     public Intersection() {
     }
 
-    public Intersection(int osmid, Coordinate coordinate, List<Street> streets) {
+    public Intersection(Integer osmid, Coordinate coordinate, List<Street> streets) {
         this.osmid = osmid;
         this.coordinate = coordinate;
         this.streets = streets;
     }
 
-    public int getOsmid() {
+    public Integer getOsmid() {
         return osmid;
     }
 
-    public void setOsmid(int osmid) {
+    public void setOsmid(Integer osmid) {
         this.osmid = osmid;
     }
 

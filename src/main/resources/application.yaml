@@ -1,7 +1,32 @@
 server:
   servlet:
     context-path: /trip
+spring:
+  datasource:
+    url: jdbc:h2:mem:assd
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
+  artemis:
+    broker-url: tcp://localhost:61616
+    pool:
+      use-anonymous-producers: true
+    mode: native
+
+  data:
+    mongodb:
+      username: usr
+      password: pwd
+      uri: mongodb+srv://usr:pwd@assd-cluster.tayix.mongodb.net/trip?retryWrites=true&w=majority
+
+jms:
+  queue:
+    trip-request: trip
+    trip-proposal: proposal
 
 api:
   external:
     base-url: http://assd-traffic-service-progetto2.router.default.svc.cluster.local/assdTrafficService/rest/
+

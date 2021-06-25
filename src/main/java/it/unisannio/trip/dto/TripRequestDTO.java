@@ -4,30 +4,30 @@ import java.io.Serializable;
 
 public class TripRequestDTO implements Serializable {
 
-    private int osmidSource;
-    private int osmidDestination;
+    private Integer osmidSource;
+    private Integer osmidDestination;
 
     public TripRequestDTO() {
     }
 
-    public TripRequestDTO(int osmidSource, int osmidDestination) {
+    public TripRequestDTO(Integer osmidSource, Integer osmidDestination) {
         this.osmidSource = osmidSource;
         this.osmidDestination = osmidDestination;
     }
 
-    public int getOsmidSource() {
+    public Integer getOsmidSource() {
         return osmidSource;
     }
 
-    public void setOsmidSource(int osmidSource) {
+    public void setOsmidSource(Integer osmidSource) {
         this.osmidSource = osmidSource;
     }
 
-    public int getOsmidDestination() {
+    public Integer getOsmidDestination() {
         return osmidDestination;
     }
 
-    public void setOsmidDestination(int osmidDestination) {
+    public void setOsmidDestination(Integer osmidDestination) {
         this.osmidDestination = osmidDestination;
     }
 }
