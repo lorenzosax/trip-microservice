@@ -7,20 +7,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
 
-@Component
+@Service
 @EnableJms
 public class ArtemisService {
 
-    @Value("${jms.queue.trip-request}")
-    private String tripRequestQueue;
-
-    @Value("${jms.queue.trip-proposal}")
-    private String proposalQueue;
+    @Value("${jms.topic.trip-request}")
+    private String tripRequestTopic;
 
     private JmsTemplate jmsTemplate;
     private TripRepository tripRepository;
@@ -32,10 +29,10 @@ public class ArtemisService {
     }
 
     public void sendTrip(Trip trip){
-        jmsTemplate.convertAndSend(tripRequestQueue, trip);
+        jmsTemplate.convertAndSend(tripRequestTopic, trip);
     }
 
-    @JmsListener(destination = "${jms.queue.trip-request}")
+    @JmsListener(destination = "${jms.topic.trip-proposal}")
     private void receive(Message message) throws JMSException {
         // riceviamo il trip con informazioni aggiunte (in quanto è stato preso in considerazione da vehicle-service)
         Trip t = message.getBody(Trip.class);

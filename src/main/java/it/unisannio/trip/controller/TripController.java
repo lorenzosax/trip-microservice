@@ -5,44 +5,43 @@ import it.unisannio.trip.dto.TripConfirmDTO;
 import it.unisannio.trip.dto.TripRequestDTO;
 import it.unisannio.trip.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
-@RestController
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+@Component
+@Path("/trip")
 public class TripController {
 
+    @Autowired
     private TripService tripService;
 
-    @Autowired
-    public TripController(TripService tripService) {
-        this.tripService = tripService;
-    }
-
-    @GetMapping("/stations")
-    public ResponseEntity<List<StationDTO>> getStations() {
+    @GET
+    @Path("/stations")
+    public Response getStations() {
         List<StationDTO> stations = tripService.getStations();
-        return ResponseEntity.ok(stations);
+        return Response.ok(stations).build();
     }
 
-    @PostMapping("/request")
-    public ResponseEntity tripRequest(@RequestBody TripRequestDTO requestDTO, @RequestParam("userId") Integer userId) {
+    @POST
+    @Path("/request")
+    public Response tripRequest(TripRequestDTO requestDTO) {
+        Integer userId = 2;
         tripService.appendNewRequest(requestDTO, userId);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        return Response.accepted().build();
     }
 
-    @PostMapping("/confirm")
-    public ResponseEntity confirmTrip(@RequestBody TripConfirmDTO confirmDTO, @RequestParam("userId") Integer userId) {
+    @POST
+    @Path("/confirm")
+    public Response confirmTrip(TripConfirmDTO confirmDTO) {
+        Integer userId = 2;
         tripService.confirmTrip(confirmDTO.getTripId(), userId);
-        return ResponseEntity.ok().build();
+        return Response.ok().build();
     }
 
-    /*@GetMapping("/pollingProposal")
-    public ResponseEntity<TripDTO> pollingProposal() {
-
-        return ResponseEntity.ok();
-    }*/
 }

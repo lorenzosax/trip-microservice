@@ -1,13 +1,13 @@
 package it.unisannio.trip.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
 import java.util.Date;
 
 
-@Entity
+@Document
 public class Trip implements Serializable {
 
     public enum Status {
@@ -15,8 +15,7 @@ public class Trip implements Serializable {
     }
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    private String id;
     private Integer userId;
     private Integer source;
     private Integer destination;
@@ -26,7 +25,7 @@ public class Trip implements Serializable {
 
     public Trip() {}
 
-    public Trip(Integer id, Integer userId, Integer source, Integer destination, Date requestDate, Integer vehicleId, Status status) {
+    public Trip(String id, Integer userId, Integer source, Integer destination, Date requestDate, Integer vehicleId, Status status) {
         this.id = id;
         this.userId = userId;
         this.source = source;
@@ -36,11 +35,11 @@ public class Trip implements Serializable {
         this.status = status;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

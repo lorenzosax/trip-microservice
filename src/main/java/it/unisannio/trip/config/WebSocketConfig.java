@@ -1,4 +1,4 @@
-package it.unisannio.trip;
+package it.unisannio.trip.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

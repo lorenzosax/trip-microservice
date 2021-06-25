@@ -1,12 +1,10 @@
 server:
   servlet:
-    context-path: /trip
+    context-path: /api
 spring:
-  datasource:
-    url: jdbc:h2:mem:assd
-  h2:
-    console:
-      enabled: true
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/trip
   jpa:
     show-sql: true
   artemis:
@@ -15,14 +13,11 @@ spring:
       use-anonymous-producers: true
     mode: native
 
-  data:
-    mongodb:
-      username: usr
-      password: pwd
-      uri: mongodb+srv://usr:pwd@assd-cluster.tayix.mongodb.net/trip?retryWrites=true&w=majority
+  jms:
+    pub-sub-domain: true
 
 jms:
-  queue:
+  topic:
     trip-request: trip
     trip-proposal: proposal
 
