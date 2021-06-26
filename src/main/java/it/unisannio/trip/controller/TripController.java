@@ -18,8 +18,12 @@ import java.util.List;
 @Path("/trip")
 public class TripController {
 
-    @Autowired
     private TripService tripService;
+
+    @Autowired
+    public TripController(TripService tripService) {
+        this.tripService = tripService;
+    }
 
     @GET
     @Path("/stations")

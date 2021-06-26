@@ -21,17 +21,16 @@ public class ArtemisService {
     @Value("${jms.topic.trip-request}")
     private String tripRequestTopic;
 
-    @Autowired
     private WebSocketEndpoint wsEndpoint;
-
     private JmsTemplate jmsTemplate;
     private TripRepository tripRepository;
 
 
     @Autowired
-    public ArtemisService(JmsTemplate jmsTemplate, TripRepository tripRepository) {
+    public ArtemisService(JmsTemplate jmsTemplate, TripRepository tripRepository, WebSocketEndpoint wsEndpoint) {
         this.jmsTemplate = jmsTemplate;
         this.tripRepository = tripRepository;
+        this.wsEndpoint = wsEndpoint;
     }
 
     public void sendTrip(Trip trip){
