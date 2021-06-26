@@ -1,6 +1,8 @@
 server:
   servlet:
     context-path: /api
+  port: 8080
+
 spring:
   data:
     mongodb:
@@ -15,6 +17,11 @@ spring:
 
   jms:
     pub-sub-domain: true
+    template:
+      delivery-mode: persistent
+      qos-enabled: true
+    listener:
+      acknowledge-mode: auto
 
 jms:
   topic:
