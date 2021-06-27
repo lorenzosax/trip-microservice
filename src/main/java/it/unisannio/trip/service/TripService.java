@@ -1,15 +1,11 @@
 package it.unisannio.trip.service;
 
-import it.unisannio.trip.dto.StationDTO;
 import it.unisannio.trip.dto.TripRequestDTO;
-import it.unisannio.trip.dto.internal.Coordinate;
 import it.unisannio.trip.model.Trip;
 import it.unisannio.trip.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class TripService {
@@ -23,11 +19,6 @@ public class TripService {
         this.trafficService = trafficService;
         this.tripRepository = tripRepository;
         this.artemisService = artemisService;
-    }
-
-    public List<StationDTO> getStations() {
-        // ...
-        return new ArrayList<>();
     }
 
     public boolean appendNewRequest(TripRequestDTO requestDTO, Integer userId) {

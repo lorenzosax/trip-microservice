@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Dynamic table update</title>
+</head>
+<body>
+    <p>
+      Samples
+    </p>
+	<button type="button" id="connect">Connect</button>
+    <div id="table-container">
+        <table id = "table" border= "1">
+           <tr>
+	       <th> TripId </th>
+              <th> VehicleId </th>
+           </tr>
+        </table>
+    </div>
+    <div id="console">
+    </div>
+	
+	
+	<script type="application/javascript">
+
+        var Table = {};
+	
+		Table.write = function(data) {
+			   var table = document.getElementById('table');
+			   var row = document.createElement('tr');
+			   row.appendChild(document.createElement('td'));
+			   row.appendChild(document.createElement('td'));
+			   row.cells[0].innerHTML = JSON.parse(data).tripId;
+			   row.cells[1].innerHTML = JSON.parse(data).vehicleId;
+			   table.appendChild(row);   
+		};
+        
+        var Console = {};
+
+        Console.write = function(message) {
+            var console = document.getElementById('console');
+            var p = document.createElement('p');
+            p.innerHTML = message;
+            console.appendChild(p);
+        };
+
+        var Channel = {};
+        
+        Channel.socket = null;
+
+
+        Channel.connect = function(host) {
+			Channel.socket = new WebSocket(host);
+            Channel.socket.onopen = function () {
+               Console.write("Connection open");
+            };
+
+            Channel.socket.onclose = function () {
+              Console.write("Connection close");
+            };
+
+            Channel.socket.onmessage = function (message) {
+                Table.write(message.data);
+            };
+        };
+		
+		document.getElementById("connect").onclick = function() {
+			Channel.connect('ws://127.0.0.1:8080/api/ws/notifications');
+			document.getElementById("connect").disabled = true;
+		};
+
+
+    </script>
+</body>
+</html>

@@ -1,22 +1,25 @@
 package it.unisannio.trip;
 
+import it.unisannio.trip.controller.StationController;
 import it.unisannio.trip.controller.TripController;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
+
+import javax.ws.rs.ApplicationPath;
 
 
 @SpringBootApplication
-@EnableScheduling
 @EnableAsync
 @EnableFeignClients
+@ApplicationPath("api")
 public class TripApplication extends ResourceConfig {
 
 	public TripApplication() {
 		register(TripController.class);
+		register(StationController.class);
 	}
 
 	public static void main(String[] args) {

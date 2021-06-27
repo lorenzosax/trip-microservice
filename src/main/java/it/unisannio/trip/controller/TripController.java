@@ -3,6 +3,7 @@ package it.unisannio.trip.controller;
 import it.unisannio.trip.dto.StationDTO;
 import it.unisannio.trip.dto.TripConfirmDTO;
 import it.unisannio.trip.dto.TripRequestDTO;
+import it.unisannio.trip.service.StationService;
 import it.unisannio.trip.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,16 +21,10 @@ public class TripController {
 
     private TripService tripService;
 
+
     @Autowired
     public TripController(TripService tripService) {
         this.tripService = tripService;
-    }
-
-    @GET
-    @Path("/stations")
-    public Response getStations() {
-        List<StationDTO> stations = tripService.getStations();
-        return Response.ok(stations).build();
     }
 
     @POST
