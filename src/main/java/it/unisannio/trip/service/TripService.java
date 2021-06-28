@@ -10,33 +10,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class TripService {
 
-    private TrafficService trafficService;
     private TripRepository tripRepository;
     private ArtemisService artemisService;
 
     @Autowired
-    public TripService(TrafficService trafficService, TripRepository tripRepository, ArtemisService artemisService) {
-        this.trafficService = trafficService;
+    public TripService(TripRepository tripRepository, ArtemisService artemisService) {
         this.tripRepository = tripRepository;
         this.artemisService = artemisService;
     }
 
-    public boolean appendNewRequest(TripRequestDTO requestDTO, Integer userId) {
-        // List<Coordinate> shortestPath = trafficService.shortestPath(requestDTO.getOsmidSource(), requestDTO.getOsmidDestination());
-
+    public String appendNewRequest(TripRequestDTO requestDTO) {
         Trip trip = new Trip();
         trip.setSource(requestDTO.getOsmidSource());
         trip.setDestination(requestDTO.getOsmidDestination());
-        trip.setUserId(userId);
-        this.tripRepository.save(trip);
-        this.artemisService.sendTrip(trip);
+        Trip savedTrip = this.tripRepository.save(trip);
+        this.artemisService.sendTrip(savedTrip);
 
-        // mandare in topic questa richiesta
-        return true;
+        return savedTrip.getId();
     }
 
-
-    public void confirmTrip(Integer tripId, Integer userId) {
-        // salvare in db la proposta accettata del trip
-    }
 }

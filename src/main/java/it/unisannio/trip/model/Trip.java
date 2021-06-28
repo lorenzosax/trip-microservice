@@ -16,7 +16,6 @@ public class Trip implements Serializable {
 
     @Id
     private String id;
-    private Integer userId;
     private Integer source;
     private Integer destination;
     private Date requestDate = new Date();
@@ -25,9 +24,8 @@ public class Trip implements Serializable {
 
     public Trip() {}
 
-    public Trip(String id, Integer userId, Integer source, Integer destination, Date requestDate, Integer vehicleId, Status status) {
+    public Trip(String id, Integer source, Integer destination, Date requestDate, Integer vehicleId, Status status) {
         this.id = id;
-        this.userId = userId;
         this.source = source;
         this.destination = destination;
         this.requestDate = requestDate;
@@ -41,14 +39,6 @@ public class Trip implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public Integer getSource() {

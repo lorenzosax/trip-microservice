@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface StationRepository extends MongoRepository<Station, Integer> {
+public interface StationRepository extends MongoRepository<Station, String> {
 
     public Optional<Station> findByNodeId(Integer nodeId);
 }
