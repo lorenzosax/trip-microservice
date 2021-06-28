@@ -23,7 +23,7 @@ public interface TrafficService {
     Street getStreetsById(@PathVariable Integer linkId);
 
     @GetMapping("/streets")
-    Street getStreets(@RequestParam Integer osmidStart, @RequestParam Integer asmidDest);
+    Street getStreets(@RequestParam Integer osmidStart, @RequestParam Integer osmidDest);
 
     @GetMapping("/shortestPaths")
     List<Coordinate> shortestPath(@RequestParam Integer source, @RequestParam Integer destination);

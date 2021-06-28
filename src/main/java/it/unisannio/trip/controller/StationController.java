@@ -25,20 +25,20 @@ public class StationController {
 
     @GET
     public Response getStations() {
-        List<StationDTO> stations = stationService.getStations();
+        List<StationDTO> stations = this.stationService.getStations();
         return Response.ok(stations).build();
     }
 
     @GET
     @Path("/{id}")
     public Response getStationInfo(@PathParam(value = "id") Integer nodeId) {
-        StationDTO stationInfo = stationService.getStationInfo(nodeId);
+        StationDTO stationInfo = this.stationService.getStationInfo(nodeId);
         return ((stationInfo != null) ? Response.ok(stationInfo) : Response.noContent()).build();
     }
 
     @POST
     public Response insertStations(List<StationDTO> stationList) {
-        stationService.insertStations(stationList);
+        this.stationService.insertStations(stationList);
         return Response.ok().build();
     }
 }

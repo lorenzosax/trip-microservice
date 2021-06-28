@@ -1,5 +1,6 @@
 package it.unisannio.trip.model;
 
+import it.unisannio.trip.dto.internal.Coordinate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,15 +13,13 @@ public class Station implements Serializable {
     @Id
     private String id;
     private Integer nodeId;
-    private Double latitude;
-    private Double longitude;
+    private Coordinate position;
 
     public Station() {}
 
-    public Station(Integer nodeId, Double latitude, Double longitude) {
+    public Station(Integer nodeId, Coordinate position) {
         this.nodeId = nodeId;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.position = position;
     }
 
     public String getId() {
@@ -39,19 +38,11 @@ public class Station implements Serializable {
         this.nodeId = nodeId;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public Coordinate getPosition() {
+        return position;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setPosition(Coordinate position) {
+        this.position = position;
     }
 }

@@ -1,5 +1,6 @@
 package it.unisannio.trip;
 
+import it.unisannio.trip.controller.RouteController;
 import it.unisannio.trip.controller.StationController;
 import it.unisannio.trip.controller.TripController;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -20,6 +21,7 @@ public class TripApplication extends ResourceConfig {
 	public TripApplication() {
 		register(TripController.class);
 		register(StationController.class);
+		register(RouteController.class);
 	}
 
 	public static void main(String[] args) {

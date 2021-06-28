@@ -12,7 +12,12 @@ public class StationDTO implements Serializable {
     private Double latitude;
     private Double longitude;
 
-    public StationDTO() {
+    public StationDTO() { }
+
+    public StationDTO(Station station) {
+        this.nodeId = station.getNodeId();
+        this.latitude = station.getPosition().getLatitude();
+        this.longitude = station.getPosition().getLongitude();
     }
 
     public StationDTO(Integer nodeId, Double latitude, Double longitude) {
@@ -24,13 +29,13 @@ public class StationDTO implements Serializable {
     public static List<StationDTO> convert(List<Station> stationList) {
         List<StationDTO> result = new ArrayList<>();
         for (Station station : stationList) {
-            result.add(new StationDTO(station.getNodeId(), station.getLatitude(), station.getLongitude()));
+            result.add(new StationDTO(station));
         }
         return result;
     }
 
     public static StationDTO convert(Station station) {
-        return new StationDTO(station.getNodeId(), station.getLatitude(), station.getLongitude());
+        return new StationDTO(station);
     }
 
     public Integer getNodeId() {

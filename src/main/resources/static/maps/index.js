@@ -2169,7 +2169,7 @@ $( document ).ready(function() {
                                 lng: data[i].longitude
                             },
                             map,
-                            title: ("i = " + i)
+                            value: data[i].nodeId
                         });
                     }
                 } else {

@@ -1,6 +1,7 @@
 package it.unisannio.trip.service;
 
 import it.unisannio.trip.dto.StationDTO;
+import it.unisannio.trip.dto.internal.Coordinate;
 import it.unisannio.trip.model.Station;
 import it.unisannio.trip.repository.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,12 @@ public class StationService {
 
     public void insertStations(List<StationDTO> stations) {
         for (StationDTO station: stations) {
-            this.stationRepository.insert(new Station(station.getNodeId(), station.getLatitude(), station.getLongitude()));
+            Station s = new Station(
+                    station.getNodeId(),
+                    new Coordinate(
+                            station.getLatitude(),
+                            station.getLongitude()));
+            this.stationRepository.insert(s);
         }
     }
 }
