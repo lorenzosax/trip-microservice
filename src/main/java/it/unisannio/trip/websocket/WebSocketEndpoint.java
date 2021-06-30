@@ -9,7 +9,7 @@ import javax.websocket.server.ServerEndpoint;
 import java.util.*;
 
 @Singleton
-@ServerEndpoint(value = "/ws/notifications/{tripId}", encoders = {TripNotificationEncoder.class})
+@ServerEndpoint(value = "/api/notifications/{tripId}", encoders = {TripNotificationEncoder.class})
 public class WebSocketEndpoint {
     public static Map<String, Session> peers = Collections.synchronizedMap(new HashMap<String, Session>());
 

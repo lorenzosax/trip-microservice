@@ -2158,7 +2158,7 @@ $( document ).ready(function() {
         $.ajax({
             crossOrigin: true,
             type: "GET",
-            url: "http://localhost:8080/api/station",
+            url: "http://localhost:8080/api/city/station",
             dataType: "json",
             success: function (data) {
                 if (data instanceof Array) {
