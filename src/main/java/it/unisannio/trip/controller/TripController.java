@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Component
-@Path("/trip")
+@Path("/trips")
 public class TripController {
 
     private TripService tripService;

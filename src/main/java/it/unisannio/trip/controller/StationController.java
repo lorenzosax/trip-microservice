@@ -13,7 +13,7 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Component
-@Path("/station")
+@Path("/stations")
 public class StationController {
 
     private StationService stationService;

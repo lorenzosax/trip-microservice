@@ -13,7 +13,7 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Component
-@Path("/route")
+@Path("/routes")
 public class RouteController {
 
     private RouteService routeService;
