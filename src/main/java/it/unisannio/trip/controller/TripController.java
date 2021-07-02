@@ -26,8 +26,9 @@ public class TripController {
     @POST
     @Path("/request")
     public Response tripRequest(TripRequestDTO requestDTO) {
-        String tripId = tripService.appendNewRequest(requestDTO);
-        return Response.accepted(tripId).build();
+        /*String tripId = tripService.appendNewRequest(requestDTO);
+        return Response.accepted(tripId).build();*/
+        return Response.status(Response.Status.MOVED_PERMANENTLY).build();
     }
 
 }

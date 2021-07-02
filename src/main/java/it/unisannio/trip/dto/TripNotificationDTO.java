@@ -8,6 +8,8 @@ public class TripNotificationDTO implements Serializable {
     private Integer vehicleId;
     private Integer pickNodeUpId;
 
+    public TripNotificationDTO() { }
+
     public TripNotificationDTO(String tripId, Integer vehicleId, Integer pickNodeUpId) {
         this.tripId = tripId;
         this.vehicleId = vehicleId;

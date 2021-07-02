@@ -22,16 +22,14 @@ public class ArtemisService {
     @Value("${jms.topic.trip-request}")
     private String tripRequestTopic;
 
-    private WebSocketEndpoint wsEndpoint;
     private JmsTemplate jmsTemplate;
     private TripRepository tripRepository;
 
 
     @Autowired
-    public ArtemisService(JmsTemplate jmsTemplate, TripRepository tripRepository, WebSocketEndpoint wsEndpoint) {
+    public ArtemisService(JmsTemplate jmsTemplate, TripRepository tripRepository) {
         this.jmsTemplate = jmsTemplate;
         this.tripRepository = tripRepository;
-        this.wsEndpoint = wsEndpoint;
     }
 
     public void sendTrip(Trip trip){
@@ -53,9 +51,9 @@ public class ArtemisService {
             trip.setStatus(Trip.Status.IN_PROGRESS);
             this.tripRepository.save(trip);
 
-            if (!WebSocketEndpoint.peers.isEmpty() && WebSocketEndpoint.peers.get(tripNotification.getTripId()) != null) {
+            /*if (!WebSocketEndpoint.peers.isEmpty() && WebSocketEndpoint.peers.get(tripNotification.getTripId()) != null) {
                 wsEndpoint.send(tripNotification);
-            }
+            }*/
         }
     }
 }

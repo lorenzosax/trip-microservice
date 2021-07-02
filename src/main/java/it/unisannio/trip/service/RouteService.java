@@ -7,10 +7,12 @@ import it.unisannio.trip.model.Route;
 import it.unisannio.trip.model.Station;
 import it.unisannio.trip.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RouteService {
@@ -22,9 +24,15 @@ public class RouteService {
         this.routeRepository = routeRepository;
     }
 
+    @Cacheable("routes")
     public List<RouteDTO> getRoutes() {
         List<Route> routes = this.routeRepository.findAll();
         return RouteDTO.convert(routes);
+    }
+
+    public List<Route> getRoutesByStationId(Integer id) {
+        Optional<List<Route>> routes = this.routeRepository.findByStationId(id);
+        return routes.orElse(null);
     }
 
     public void insertRoutes(List<RouteDTO> routeList) {

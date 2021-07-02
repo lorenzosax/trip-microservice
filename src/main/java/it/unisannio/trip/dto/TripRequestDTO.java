@@ -30,4 +30,12 @@ public class TripRequestDTO implements Serializable {
     public void setOsmidDestination(Integer osmidDestination) {
         this.osmidDestination = osmidDestination;
     }
+
+    @Override
+    public String toString() {
+        return "TripRequestDTO{" +
+                "osmidSource=" + osmidSource +
+                ", osmidDestination=" + osmidDestination +
+                '}';
+    }
 }

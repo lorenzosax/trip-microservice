@@ -24,7 +24,7 @@ public class RouteController {
     }
 
     @GET
-    public Response getStations() {
+    public Response getRoutes() {
         List<RouteDTO> routes = this.routeService.getRoutes();
         return Response.ok(routes).build();
     }

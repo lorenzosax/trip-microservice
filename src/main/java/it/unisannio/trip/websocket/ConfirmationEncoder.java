@@ -2,17 +2,17 @@ package it.unisannio.trip.websocket;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.unisannio.trip.dto.TripNotificationDTO;
+import it.unisannio.trip.dto.ConfirmationDTO;
 
 import javax.websocket.EncodeException;
 import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
 
 
-public class TripNotificationEncoder implements Encoder.Text<TripNotificationDTO>{
+public class ConfirmationEncoder implements Encoder.Text<ConfirmationDTO>{
 
 	  @Override
-	  public String encode(TripNotificationDTO trip) throws EncodeException {
+	  public String encode(ConfirmationDTO trip) throws EncodeException {
       
 	    String jsonString = null;
 		try {
@@ -25,11 +25,11 @@ public class TripNotificationEncoder implements Encoder.Text<TripNotificationDTO
 
 	  @Override
 	  public void init(EndpointConfig ec) {
-	    System.out.println("TripNotificationEncoder - init method called");
+	    System.out.println("ConfirmationEncoder - init method called");
 	  }
 
 	  @Override
 	  public void destroy() {
-	    System.out.println("TripNotificationEncoder - destroy method called");
+	    System.out.println("ConfirmationEncoder - destroy method called");
 	  }
 }

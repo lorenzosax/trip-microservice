@@ -20,6 +20,14 @@ public class Route implements Serializable {
         this.stations = stations;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+
+        return ((Route) obj).getId().equals(this.id);
+    }
+
     public String getId() {
         return id;
     }

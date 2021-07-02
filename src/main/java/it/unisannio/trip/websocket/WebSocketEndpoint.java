@@ -1,32 +1,46 @@
 package it.unisannio.trip.websocket;
 
-import it.unisannio.trip.dto.TripNotificationDTO;
+import it.unisannio.trip.dto.ConfirmationDTO;
+import it.unisannio.trip.dto.TripRequestDTO;
+import it.unisannio.trip.service.TripService;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.inject.Singleton;
 import javax.websocket.*;
-import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.util.*;
 
-@Singleton
-@ServerEndpoint(value = "/api/notifications/{tripId}", encoders = {TripNotificationEncoder.class})
+@ServerEndpoint(value = "/api/notifications",
+        encoders = {TripNotificationEncoder.class, ConfirmationEncoder.class},
+        decoders = {TripNotificationDecoder.class})
 public class WebSocketEndpoint {
-    public static Map<String, Session> peers = Collections.synchronizedMap(new HashMap<String, Session>());
+    public static List<Session> peers = new ArrayList<>();
+
+    private static TripService tripService;
+
+    @Autowired
+    public void setTripService(TripService tripService) {
+        WebSocketEndpoint.tripService = tripService;
+    }
 
     @OnOpen
-    public void start(@PathParam("tripId") String id, Session session) {
-        peers.put(id, session);
+    public void start(Session session) {
+        peers.add(session);
         System.out.println("A connection has been established");
     }
    
     @OnClose
     public void end(Session session) {
-    	peers.remove(session.getId());
+    	peers.remove(session);
     }
 
     @OnMessage
-    public void receive(String message) {
-        // in this example we don't receive messages with this endpoint
+    public void receive(Session session, TripRequestDTO tripRequestDTO) {
+        boolean isFeasibleRequest = tripService.appendNewRequest(tripRequestDTO);
+        if (!isFeasibleRequest) {
+            send(session, new ConfirmationDTO(ConfirmationDTO.Status.REJECT));
+        } else {
+            send(session, new ConfirmationDTO(ConfirmationDTO.Status.APPROVED));
+        }
     }
 
     @OnError
@@ -34,9 +48,7 @@ public class WebSocketEndpoint {
         // to write for handling errors
     }
 
-    public void send(TripNotificationDTO trip) {
-        if (peers.get(trip.getTripId()) != null) {
-            peers.get(trip.getTripId()).getAsyncRemote().sendObject(trip);
-        }
+    public void send(Session session, Object obj) {
+        session.getAsyncRemote().sendObject(obj);
     }
 }
