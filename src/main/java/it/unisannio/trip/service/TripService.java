@@ -24,13 +24,13 @@ public class TripService {
         this.routeService = routeService;
     }
 
-    public boolean appendNewRequest(TripRequestDTO requestDTO) {
+    public boolean sendRequest(String sessionId, TripRequestDTO requestDTO) {
         if (this.isFeasibleRequest(requestDTO)) {
             Trip trip = new Trip();
             trip.setSource(requestDTO.getOsmidSource());
             trip.setDestination(requestDTO.getOsmidDestination());
             Trip savedTrip = this.tripRepository.save(trip);
-            this.artemisService.sendTrip(savedTrip);
+            this.artemisService.sendTrip(sessionId, savedTrip);
 
             return true;
         }
