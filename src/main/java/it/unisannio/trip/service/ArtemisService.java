@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @EnableJms
@@ -25,14 +26,12 @@ public class ArtemisService {
 
     private JmsTemplate jmsTemplate;
     private TripRepository tripRepository;
-    private WebSocketService webSocketService;
 
 
     @Autowired
-    public ArtemisService(JmsTemplate jmsTemplate, TripRepository tripRepository, WebSocketService webSocketService) {
+    public ArtemisService(JmsTemplate jmsTemplate, TripRepository tripRepository) {
         this.jmsTemplate = jmsTemplate;
         this.tripRepository = tripRepository;
-        this.webSocketService = webSocketService;
     }
 
     public void sendTrip(String sessionId, Trip trip){
@@ -54,17 +53,18 @@ public class ArtemisService {
             this.tripRepository.save(trip);
 
             String sessionId = message.getStringProperty(SESSION_ID_PROPERTY);
-            this.webSocketService.sendMessage(sessionId, tripNotification);
+            WebSocketService.sendMessage(sessionId, tripNotification);
         }
     }
 
     // TODO Only for test - to remove
     @JmsListener(destination = "${jms.topic.trip-request}", selector = "JMSCorrelationID = 'trip-1'")
-    private void receiveTest(Message message) throws JMSException {
+    private void receiveTest(Message message) throws JMSException, InterruptedException {
+        TimeUnit.SECONDS.sleep(2);
         Trip trip = message.getBody(Trip.class);
 
-        TripNotificationDTO tripNotificationDTO = new TripNotificationDTO("FG290PO", 2, trip.getSource());
+        TripNotificationDTO tripNotificationDTO = new TripNotificationDTO(trip.getId(), 1, trip.getSource());
         String sessionId = message.getStringProperty(SESSION_ID_PROPERTY);
-        this.webSocketService.sendMessage(sessionId, tripNotificationDTO);
+        WebSocketService.sendMessage(sessionId, tripNotificationDTO);
     }
 }

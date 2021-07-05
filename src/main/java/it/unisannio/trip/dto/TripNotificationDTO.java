@@ -6,14 +6,14 @@ public class TripNotificationDTO implements Serializable {
 
     private String tripId;
     private Integer vehicleId;
-    private Integer pickNodeUpId;
+    private Integer pickUpNodeId;
 
     public TripNotificationDTO() { }
 
-    public TripNotificationDTO(String tripId, Integer vehicleId, Integer pickNodeUpId) {
+    public TripNotificationDTO(String tripId, Integer vehicleId, Integer pickUpNodeId) {
         this.tripId = tripId;
         this.vehicleId = vehicleId;
-        this.pickNodeUpId = pickNodeUpId;
+        this.pickUpNodeId = pickUpNodeId;
     }
 
     public String getTripId() {
@@ -32,11 +32,11 @@ public class TripNotificationDTO implements Serializable {
         this.vehicleId = vehicleId;
     }
 
-    public Integer getPickNodeUpId() {
-        return pickNodeUpId;
+    public Integer getPickUpNodeId() {
+        return pickUpNodeId;
     }
 
-    public void setPickNodeUpId(Integer pickNodeUpId) {
-        this.pickNodeUpId = pickNodeUpId;
+    public void setPickUpNodeId(Integer pickUpNodeId) {
+        this.pickUpNodeId = pickUpNodeId;
     }
 }

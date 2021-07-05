@@ -15,27 +15,21 @@ import javax.websocket.server.ServerEndpoint;
 public class WebSocketEndpoint {
 
     private static TripService tripService;
-    private static WebSocketService webSocketService;
 
     @Autowired
     public void setTripService(TripService tripService) {
         WebSocketEndpoint.tripService = tripService;
     }
 
-    @Autowired
-    public void setWebSocketService(WebSocketService webSocketService) {
-        WebSocketEndpoint.webSocketService = webSocketService;
-    }
-
     @OnOpen
     public void start(Session session) {
-        webSocketService.addPeer(session);
+        WebSocketService.addPeer(session);
         System.out.println("A connection has been established");
     }
    
     @OnClose
     public void end(Session session) {
-        this.webSocketService.removePeer(session);
+        WebSocketService.removePeer(session);
     }
 
     @OnMessage
@@ -54,6 +48,6 @@ public class WebSocketEndpoint {
     }
 
     public void send(String sessionId, Object obj) {
-        this.webSocketService.sendMessage(sessionId, obj);
+        WebSocketService.sendMessage(sessionId, obj);
     }
 }

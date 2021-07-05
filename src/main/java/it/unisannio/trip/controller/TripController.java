@@ -23,12 +23,10 @@ public class TripController {
         this.tripService = tripService;
     }
 
-    @POST
-    @Path("/request")
-    public Response tripRequest(TripRequestDTO requestDTO) {
-        /*String tripId = tripService.appendNewRequest(requestDTO);
-        return Response.accepted(tripId).build();*/
-        return Response.status(Response.Status.MOVED_PERMANENTLY).build();
+    @GET
+    @Path("/statistics")
+    public Response statistics() {
+        return Response.ok(this.tripService.getStatistics()).build();
     }
 
 }

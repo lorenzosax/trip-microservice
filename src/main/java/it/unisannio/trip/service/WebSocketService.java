@@ -1,13 +1,10 @@
 package it.unisannio.trip.service;
 
-import org.springframework.stereotype.Service;
-
 import javax.websocket.Session;
 import java.util.HashMap;
 import java.util.Map;
 
 
-@Service
 public final class WebSocketService {
 
     private static Map<String, Session> peers = new HashMap<>();

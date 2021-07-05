@@ -30,6 +30,11 @@ public class RouteService {
         return RouteDTO.convert(routes);
     }
 
+    @Cacheable("rawRoutes")
+    public List<Route> getRawRoutes() {
+        return this.routeRepository.findAll();
+    }
+
     public List<Route> getRoutesByStationId(Integer id) {
         Optional<List<Route>> routes = this.routeRepository.findByStationId(id);
         return routes.orElse(null);
