@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class StationStatsDTO implements Serializable {
     private int nodeId;
+    private Coordinate position;
     private int requests;
 
     public StationStatsDTO() {
@@ -15,6 +16,14 @@ public class StationStatsDTO implements Serializable {
 
     public void setNodeId(int nodeId) {
         this.nodeId = nodeId;
+    }
+
+    public Coordinate getPosition() {
+        return position;
+    }
+
+    public void setPosition(Coordinate position) {
+        this.position = position;
     }
 
     public int getRequests() {

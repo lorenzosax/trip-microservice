@@ -58,6 +58,8 @@ public class TripService {
             for (Station station : route.getStations()) {
                 StationStatsDTO stationStatsDTO = new StationStatsDTO();
                 stationStatsDTO.setNodeId(station.getNodeId());
+                stationStatsDTO.setPosition(station.getPosition());
+
                 int stationRequests = this.tripRepository.countBySourceAndRequestDateIsGreaterThan(station.getNodeId(), yesterday);
                 stationStatsDTO.setRequests(stationRequests);
                 totalRouteRequests += stationRequests;
