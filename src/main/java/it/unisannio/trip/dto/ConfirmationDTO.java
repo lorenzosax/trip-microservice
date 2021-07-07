@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class ConfirmationDTO implements Serializable {
 
-    public enum Status {APPROVED, REJECT}
+    public enum Status {APPROVED, REJECTED}
 
     private Status status;
 

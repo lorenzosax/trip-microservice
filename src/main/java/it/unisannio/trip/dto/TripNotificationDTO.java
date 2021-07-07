@@ -5,12 +5,12 @@ import java.io.Serializable;
 public class TripNotificationDTO implements Serializable {
 
     private String tripId;
-    private Integer vehicleId;
+    private String vehicleId;
     private Integer pickUpNodeId;
 
     public TripNotificationDTO() { }
 
-    public TripNotificationDTO(String tripId, Integer vehicleId, Integer pickUpNodeId) {
+    public TripNotificationDTO(String tripId, String vehicleId, Integer pickUpNodeId) {
         this.tripId = tripId;
         this.vehicleId = vehicleId;
         this.pickUpNodeId = pickUpNodeId;
@@ -24,11 +24,11 @@ public class TripNotificationDTO implements Serializable {
         this.tripId = tripId;
     }
 
-    public Integer getVehicleId() {
+    public String getVehicleId() {
         return vehicleId;
     }
 
-    public void setVehicleId(Integer vehicleId) {
+    public void setVehicleId(String vehicleId) {
         this.vehicleId = vehicleId;
     }
 

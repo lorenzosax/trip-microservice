@@ -42,7 +42,7 @@ public class ArtemisService {
         });
     }
 
-    @JmsListener(destination = "${jms.topic.trip-proposal}", selector = "JMSCorrelationID = 'trip-1'")
+    @JmsListener(destination = "${jms.topic.trip-confirmation}", selector = "JMSCorrelationID = 'trip-1'")
     private void receive(Message message) throws JMSException {
         TripNotificationDTO tripNotification = message.getBody(TripNotificationDTO.class);
 
@@ -52,19 +52,20 @@ public class ArtemisService {
             trip.setStatus(Trip.Status.IN_PROGRESS);
             this.tripRepository.save(trip);
 
+            // TODO sessionId non sarà presente nel messaggio.......
             String sessionId = message.getStringProperty(SESSION_ID_PROPERTY);
             WebSocketService.sendMessage(sessionId, tripNotification);
         }
     }
 
     // TODO Only for test - to remove
-    @JmsListener(destination = "${jms.topic.trip-request}", selector = "JMSCorrelationID = 'trip-1'")
+    /*@JmsListener(destination = "${jms.topic.trip-request}", selector = "JMSCorrelationID = 'trip-1'")
     private void receiveTest(Message message) throws JMSException, InterruptedException {
         TimeUnit.SECONDS.sleep(2);
         Trip trip = message.getBody(Trip.class);
 
-        TripNotificationDTO tripNotificationDTO = new TripNotificationDTO(trip.getId(), 1, trip.getSource());
+        TripNotificationDTO tripNotificationDTO = new TripNotificationDTO(trip.getId(), "TARGA", trip.getSource());
         String sessionId = message.getStringProperty(SESSION_ID_PROPERTY);
         WebSocketService.sendMessage(sessionId, tripNotificationDTO);
-    }
+    }*/
 }

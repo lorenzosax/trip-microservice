@@ -77,19 +77,8 @@ public class TripService {
     }
 
     private boolean isFeasibleRequest(TripRequestDTO requestDTO) {
-
-        List<Route> routesSrc = this.routeService.getRoutesByStationId(requestDTO.getOsmidSource());
-        if (routesSrc != null && routesSrc.size() > 0) {
-            List<Route> routesDst = this.routeService.getRoutesByStationId(requestDTO.getOsmidDestination());
-            if (routesDst != null && routesDst.size() > 0) {
-                for (Route route : routesSrc) {
-                    if (routesDst.contains(route)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        List<Route> routesSrc = this.routeService.getRoutesWithStationIds(List.of(requestDTO.getOsmidSource(), requestDTO.getOsmidDestination()));
+        return routesSrc != null && routesSrc.size() > 0;
     }
 
     private Date getDate24HoursAgo() {

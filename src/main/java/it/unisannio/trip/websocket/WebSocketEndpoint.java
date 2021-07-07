@@ -36,7 +36,7 @@ public class WebSocketEndpoint {
     public void receive(Session session, TripRequestDTO tripRequestDTO) {
         boolean isFeasibleRequest = tripService.sendRequest(session.getId(), tripRequestDTO);
         if (!isFeasibleRequest) {
-            send(session.getId(), new ConfirmationDTO(ConfirmationDTO.Status.REJECT));
+            send(session.getId(), new ConfirmationDTO(ConfirmationDTO.Status.REJECTED));
         } else {
             send(session.getId(), new ConfirmationDTO(ConfirmationDTO.Status.APPROVED));
         }
