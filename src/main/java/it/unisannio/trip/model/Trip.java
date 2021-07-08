@@ -10,27 +10,21 @@ import java.util.Date;
 @Document
 public class Trip implements Serializable {
 
-    public enum Status {
-        WAIT, IN_PROGRESS, DONE
-    }
-
     @Id
     private String id;
     private Integer source;
     private Integer destination;
     private Date requestDate = new Date();
     private Integer vehicleId;
-    private Status status = Status.WAIT;
 
     public Trip() {}
 
-    public Trip(String id, Integer source, Integer destination, Date requestDate, Integer vehicleId, Status status) {
+    public Trip(String id, Integer source, Integer destination, Date requestDate, Integer vehicleId) {
         this.id = id;
         this.source = source;
         this.destination = destination;
         this.requestDate = requestDate;
         this.vehicleId = vehicleId;
-        this.status = status;
     }
 
     public String getId() {
@@ -71,13 +65,5 @@ public class Trip implements Serializable {
 
     public void setVehicleId(Integer vehicleId) {
         this.vehicleId = vehicleId;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 }

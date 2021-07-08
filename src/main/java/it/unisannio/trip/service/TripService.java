@@ -29,17 +29,16 @@ public class TripService {
         this.routeService = routeService;
     }
 
-    public boolean sendRequest(String sessionId, TripRequestDTO requestDTO) {
+    public Trip sendRequestToMOM(String sessionId, TripRequestDTO requestDTO) {
+        Trip savedTrip = null;
         if (this.isFeasibleRequest(requestDTO)) {
             Trip trip = new Trip();
             trip.setSource(requestDTO.getOsmidSource());
             trip.setDestination(requestDTO.getOsmidDestination());
-            Trip savedTrip = this.tripRepository.save(trip);
+            savedTrip = this.tripRepository.save(trip);
             this.artemisService.sendTrip(sessionId, savedTrip);
-
-            return true;
         }
-        return false;
+        return savedTrip;
     }
 
     public StatisticsDTO getStatistics() {
