@@ -11,14 +11,12 @@ public class Websocket implements Serializable {
 
     @Id
     private String id;
-    private String ticket;
     private String instanceSessionId;
     private String instanceTripId;
 
     public Websocket() {}
 
-    public Websocket(String ticket, String instanceSessionId) {
-        this.ticket = ticket;
+    public Websocket(String instanceSessionId) {
         this.instanceSessionId = instanceSessionId;
     }
 
@@ -28,14 +26,6 @@ public class Websocket implements Serializable {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getTicket() {
-        return ticket;
-    }
-
-    public void setTicket(String ticket) {
-        this.ticket = ticket;
     }
 
     public String getInstanceSessionId() {

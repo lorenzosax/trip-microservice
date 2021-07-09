@@ -35,12 +35,7 @@ public class WebSocketEndpoint {
 
     @OnOpen
     public void start(Session session) throws Exception {
-        Map<String, String> queryMap = Utils.buildQueryMap(session.getQueryString());
-        if (queryMap != null && queryMap.get("ticket") != null) {
-            webSocketService.addPeer(queryMap.get("ticket"), session);
-            logger.info("A WS connection has been established");
-        } else
-            throw new Exception();
+        webSocketService.addPeer(session);
     }
    
     @OnClose
@@ -52,16 +47,12 @@ public class WebSocketEndpoint {
     public void receive(Session session, TripRequestDTO tripRequestDTO) {
         Trip tripRequest = tripService.sendRequestToMOM(session.getId(), tripRequestDTO);
         ConfirmationDTO confirmation;
-        try {
-            if (tripRequest == null) {
-                confirmation = new ConfirmationDTO(ConfirmationDTO.Status.REJECTED);
-            } else {
-                confirmation = new ConfirmationDTO(ConfirmationDTO.Status.APPROVED);
-            }
-            webSocketService.sendMessage(session.getId(), confirmation);
-        } catch (WebSocketClientNotFoundException e) {
-            e.printStackTrace();
+        if (tripRequest == null) {
+            confirmation = new ConfirmationDTO(ConfirmationDTO.Status.REJECTED);
+        } else {
+            confirmation = new ConfirmationDTO(ConfirmationDTO.Status.APPROVED);
         }
+        session.getAsyncRemote().sendObject(confirmation);
     }
 
     @OnError

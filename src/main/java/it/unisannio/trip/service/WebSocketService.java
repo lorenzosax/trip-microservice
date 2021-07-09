@@ -27,24 +27,24 @@ public class WebSocketService {
         this.websocketRepository = websocketRepository;
     }
 
-    public void addPeer(String ticket, Session session) {
-        this.websocketRepository.save(new Websocket(ticket, preAppendInstanceToId(session.getId())));
-        peers.put(ticket, session);
+    public void addPeer(Session session) {
+        this.websocketRepository.save(new Websocket(preAppendInstanceToId(session.getId())));
+        peers.put(preAppendInstanceToId(session.getId()), session);
     }
 
     public void removePeer(String sessionId) {
         Optional<Websocket> websocket =
                 this.websocketRepository.findByInstanceSessionIdAndRemove(preAppendInstanceToId(sessionId));
-        websocket.ifPresent(value -> peers.remove(value.getTicket()));
+        websocket.ifPresent(value -> peers.remove(value.getInstanceSessionId()));
     }
 
-    public void sendMessage(String id, Object msg) throws WebSocketClientNotFoundException {
+    public void sendMessage(String tripId, Object msg) throws WebSocketClientNotFoundException {
         Optional<Websocket> websocket =
-                this.websocketRepository.findByInstanceTripIdOrInstanceSessionId(preAppendInstanceToId(id));
+                this.websocketRepository.findByInstanceTripId(preAppendInstanceToId(tripId));
         if (websocket.isEmpty())
-            throw new WebSocketClientNotFoundException("WS identified by instanceTripId/instanceSessionId: <" + id + "> is not present");
+            throw new WebSocketClientNotFoundException("WS identified by tripId: <" + tripId + "> is not present");
 
-        peers.get(websocket.get().getTicket()).getAsyncRemote().sendObject(msg);
+        peers.get(websocket.get().getInstanceSessionId()).getAsyncRemote().sendObject(msg);
     }
 
     public void addRequestTripId(String sessionId, String tripId) {

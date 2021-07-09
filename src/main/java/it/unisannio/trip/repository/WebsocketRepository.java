@@ -13,8 +13,7 @@ public interface WebsocketRepository extends MongoRepository<Websocket, String> 
     @Query(value = "{ instanceSessionId: ?0 }", delete = true)
     Optional<Websocket> findByInstanceSessionIdAndRemove(String sessionId);
 
-    @Query(value = "{ $or: [ { instanceTripId: ?0 }, { instanceSessionId: ?0 } ] }")
-    Optional<Websocket> findByInstanceTripIdOrInstanceSessionId(String tripId);
+    Optional<Websocket> findByInstanceTripId(String instanceTripId);
 
     Optional<Websocket> findByInstanceSessionId(String instanceSessionId);
 }
