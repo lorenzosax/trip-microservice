@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -65,12 +66,19 @@ public class TripService {
 
                 stationStatsList.add(stationStatsDTO);
             }
-            routeStatsDTO.setStations(stationStatsList);
+
+            routeStatsDTO.setStations(stationStatsList.stream()
+                    .sorted(Comparator.comparing(StationStatsDTO::getRequests).reversed())
+                    .collect(Collectors.toList()));
             routeStatsDTO.setRequests(totalRouteRequests);
             allRequests += totalRouteRequests;
 
             routeStatsList.add(routeStatsDTO);
         }
+
+        routeStatsList = routeStatsList.stream()
+                .sorted(Comparator.comparing(RouteStatsDTO::getRequests).reversed())
+                .collect(Collectors.toList());
 
         return new StatisticsDTO(allRequests, routeStatsList);
     }
