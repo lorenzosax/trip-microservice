@@ -1,6 +1,5 @@
 package it.unisannio.trip.websocket;
 
-import it.unisannio.trip.Utils;
 import it.unisannio.trip.dto.ConfirmationDTO;
 import it.unisannio.trip.dto.TripRequestDTO;
 import it.unisannio.trip.model.Trip;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
-import java.util.Map;
 
 @ServerEndpoint(value = "/api/notifications",
         encoders = {TripNotificationEncoder.class, ConfirmationEncoder.class},
