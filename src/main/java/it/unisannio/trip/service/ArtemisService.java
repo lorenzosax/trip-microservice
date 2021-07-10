@@ -1,8 +1,11 @@
 package it.unisannio.trip.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unisannio.trip.dto.TripNotificationDTO;
+import it.unisannio.trip.dto.internal.TripDTO;
 import it.unisannio.trip.model.Trip;
-import it.unisannio.trip.repository.TripRepository;
 import it.unisannio.trip.websocket.WebSocketClientNotFoundException;
 import it.unisannio.trip.websocket.WebSocketEndpoint;
 import org.slf4j.Logger;
@@ -16,8 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
+import javax.jms.TextMessage;
 
 @Service
 @EnableJms
@@ -25,53 +27,45 @@ public class ArtemisService {
 
     private final Logger logger = LoggerFactory.getLogger(WebSocketEndpoint.class);
 
-    private static final String SESSION_ID_PROPERTY = "sessionId";
-
     @Value("${jms.topic.trip-request}")
     private String tripRequestTopic;
 
     private JmsTemplate jmsTemplate;
-    private TripRepository tripRepository;
     private WebSocketService webSocketService;
+    private ObjectMapper objectMapper;
 
 
     @Autowired
-    public ArtemisService(JmsTemplate jmsTemplate, TripRepository tripRepository, WebSocketService webSocketService) {
+    public ArtemisService(JmsTemplate jmsTemplate, WebSocketService webSocketService, ObjectMapper objectMapper) {
         this.jmsTemplate = jmsTemplate;
-        this.tripRepository = tripRepository;
         this.webSocketService = webSocketService;
+        this.objectMapper = objectMapper;
     }
 
     public void sendTrip(String sessionId, Trip trip){
+        TripDTO tripDTO = new TripDTO();
+        tripDTO.setId(trip.getId());
+        tripDTO.setSource(trip.getSource());
+        tripDTO.setDestination(trip.getDestination());
+        tripDTO.setRequestDate(trip.getRequestDate());
+        tripDTO.setVehicleId(trip.getVehicleId());
+
         this.webSocketService.addRequestTripId(sessionId, trip.getId());
-        jmsTemplate.convertAndSend(tripRequestTopic, trip);
+        jmsTemplate.convertAndSend(tripRequestTopic, tripDTO);
     }
 
     @JmsListener(destination = "${jms.topic.trip-confirmation}")
-    private void receive(Message message) throws JMSException {
-        TripNotificationDTO tripNotification = message.getBody(TripNotificationDTO.class);
+    private void receive(Message message) throws JMSException, JsonProcessingException {
+        if (!(message instanceof TextMessage)) throw new IllegalArgumentException("Message must be of type TextMessage");
 
-        Optional<Trip> trip = this.tripRepository.findById(tripNotification.getTripId());
-        if (trip.isPresent()) {
-            try {
-                this.webSocketService.sendMessage(trip.get().getId(), tripNotification);
-                logger.debug("TripNotification sent correctly to client");
-            } catch (WebSocketClientNotFoundException e) {
-                logger.info(e.getMessage());
-            }
-        }
-    }
-
-    // TODO Only for test - to remove
-    @JmsListener(destination = "${jms.topic.trip-request}")
-    private void receiveTest(Message message) throws JMSException, InterruptedException {
-        TimeUnit.SECONDS.sleep(2);
-        Trip trip = message.getBody(Trip.class);
-
-        TripNotificationDTO tripNotificationDTO = new TripNotificationDTO(trip.getId(), "TARGA", trip.getSource());
         try {
-            this.webSocketService.sendMessage(trip.getId(), tripNotificationDTO);
-            logger.info("TripNotification sent correctly to client");
+            String json = ((TextMessage) message).getText();
+            TripNotificationDTO tripNotification = objectMapper.readValue(json, TripNotificationDTO.class);
+            this.webSocketService.sendMessage(tripNotification.getTripId(), tripNotification);
+
+            logger.debug("TripNotification sent correctly to client");
+        } catch (JMSException | JsonMappingException ex) {
+            throw new RuntimeException(ex);
         } catch (WebSocketClientNotFoundException e) {
             logger.info(e.getMessage());
         }
