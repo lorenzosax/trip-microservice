@@ -33,7 +33,7 @@ public class StationController {
     @Path("/{id}")
     public Response getStationInfo(@PathParam(value = "id") Integer nodeId) {
         StationDTO stationInfo = this.stationService.getStationInfo(nodeId);
-        return ((stationInfo != null) ? Response.ok(stationInfo) : Response.noContent()).build();
+        return ((stationInfo != null) ? Response.ok(stationInfo) : Response.status(Response.Status.NOT_FOUND)).build();
     }
 
     @POST
