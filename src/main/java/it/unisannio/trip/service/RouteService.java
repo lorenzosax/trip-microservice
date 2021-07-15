@@ -2,7 +2,6 @@ package it.unisannio.trip.service;
 
 import it.unisannio.trip.dto.RouteDTO;
 import it.unisannio.trip.dto.StationDTO;
-import it.unisannio.trip.dto.internal.Coordinate;
 import it.unisannio.trip.model.Route;
 import it.unisannio.trip.model.Station;
 import it.unisannio.trip.repository.RouteRepository;
@@ -44,7 +43,7 @@ public class RouteService {
         for (RouteDTO route: routeList) {
             List<Station> stationList = new ArrayList<>();
             for (StationDTO st : route.getStations()) {
-                stationList.add(new Station(st.getNodeId(), new Coordinate(st.getLatitude(), st.getLongitude())));
+                stationList.add(new Station(st.getNodeId(), st.getPosition()));
             }
             this.routeRepository.insert(new Route(stationList));
         }

@@ -35,9 +35,7 @@ public class StationService {
         for (StationDTO station: stations) {
             Station s = new Station(
                     station.getNodeId(),
-                    new Coordinate(
-                            station.getLatitude(),
-                            station.getLongitude()));
+                    station.getPosition());
             this.stationRepository.insert(s);
         }
     }

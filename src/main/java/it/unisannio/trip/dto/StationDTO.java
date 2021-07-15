@@ -1,5 +1,6 @@
 package it.unisannio.trip.dto;
 
+import it.unisannio.trip.dto.internal.Coordinate;
 import it.unisannio.trip.model.Station;
 
 import java.io.Serializable;
@@ -9,21 +10,18 @@ import java.util.List;
 public class StationDTO implements Serializable {
 
     private Integer nodeId;
-    private Double latitude;
-    private Double longitude;
+    private Coordinate position;
 
     public StationDTO() { }
 
     public StationDTO(Station station) {
         this.nodeId = station.getNodeId();
-        this.latitude = station.getPosition().getLatitude();
-        this.longitude = station.getPosition().getLongitude();
+        this.position = station.getPosition();
     }
 
-    public StationDTO(Integer nodeId, Double latitude, Double longitude) {
+    public StationDTO(Integer nodeId, Coordinate position) {
         this.nodeId = nodeId;
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.position = position;
     }
 
     public static List<StationDTO> convert(List<Station> stationList) {
@@ -46,19 +44,11 @@ public class StationDTO implements Serializable {
         this.nodeId = nodeId;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public Coordinate getPosition() {
+        return position;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setPosition(Coordinate position) {
+        this.position = position;
     }
 }
