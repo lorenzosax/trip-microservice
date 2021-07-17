@@ -51,4 +51,20 @@ public class StationDTO implements Serializable {
     public void setPosition(Coordinate position) {
         this.position = position;
     }
+
+    @Override
+    public int hashCode() {
+        return this.nodeId.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == null) return false;
+
+        if (!(obj instanceof StationDTO)) return false;
+
+        StationDTO s = (StationDTO) obj;
+        return this.getNodeId().equals(s.getNodeId());
+    }
 }

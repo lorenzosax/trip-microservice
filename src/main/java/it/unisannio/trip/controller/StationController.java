@@ -1,7 +1,7 @@
 package it.unisannio.trip.controller;
 
 import it.unisannio.trip.dto.StationDTO;
-import it.unisannio.trip.service.StationService;
+import it.unisannio.trip.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,29 +16,23 @@ import java.util.List;
 @Path("/stations")
 public class StationController {
 
-    private StationService stationService;
+    private RouteService routeService;
 
     @Autowired
-    public StationController(StationService stationService) {
-        this.stationService = stationService;
+    public StationController(RouteService routeService) {
+        this.routeService = routeService;
     }
 
     @GET
     public Response getStations() {
-        List<StationDTO> stations = this.stationService.getStations();
+        List<StationDTO> stations = this.routeService.getStations();
         return Response.ok(stations).build();
     }
 
     @GET
     @Path("/{id}")
     public Response getStationInfo(@PathParam(value = "id") Integer nodeId) {
-        StationDTO stationInfo = this.stationService.getStationInfo(nodeId);
+        StationDTO stationInfo = this.routeService.getStationInfo(nodeId);
         return ((stationInfo != null) ? Response.ok(stationInfo) : Response.status(Response.Status.NOT_FOUND)).build();
-    }
-
-    @POST
-    public Response insertStations(List<StationDTO> stationList) {
-        this.stationService.insertStations(stationList);
-        return Response.ok().build();
     }
 }

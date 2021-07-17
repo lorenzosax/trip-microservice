@@ -9,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RouteService {
@@ -47,5 +46,31 @@ public class RouteService {
             }
             this.routeRepository.insert(new Route(stationList));
         }
+    }
+
+    public List<StationDTO> getStations() {
+        List<RouteDTO> routeList = this.getRoutes();
+        List<StationDTO> stationList = new ArrayList<>();
+        for (RouteDTO route : routeList) {
+            stationList.addAll(route.getStations());
+        }
+        return stationList.stream()
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    public StationDTO getStationInfo(Integer nodeId) {
+        StationDTO stationDTO = null;
+        List<RouteDTO> routeList = this.getRoutes();
+        for (RouteDTO route : routeList) {
+            for (StationDTO station : route.getStations()) {
+                if (station.getNodeId().equals(nodeId)) {
+                    stationDTO = station;
+                    break;
+                }
+            }
+            if (stationDTO != null) break;
+        }
+        return stationDTO;
     }
 }
