@@ -22,13 +22,11 @@ public class RouteService {
         this.routeRepository = routeRepository;
     }
 
-    @Cacheable("routes")
     public List<RouteDTO> getRoutes() {
         List<Route> routes = this.routeRepository.findAll();
         return RouteDTO.convert(routes);
     }
 
-    @Cacheable("rawRoutes")
     public List<Route> getRawRoutes() {
         return this.routeRepository.findAll();
     }
