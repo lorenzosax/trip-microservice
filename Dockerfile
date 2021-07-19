@@ -13,12 +13,7 @@ RUN mkdir /app \
 
 WORKDIR /app
 
-ADD src src
-ADD mvnw mvnw
-ADD .mvn .mvn
-ADD pom.xml pom.xml
-
-CMD ["./mvnw", "clean", "install", "-DskipTests"]
+ADD trip-0.0.1-SNAPSHOT.jar trip-0.0.1-SNAPSHOT.jar
 
 ENV APP_HOME /app
 
@@ -28,4 +23,4 @@ EXPOSE 8100
 
 RUN chmod 777 -R /app
 
-CMD ["java", "-jar", "target/trip-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "trip-0.0.1-SNAPSHOT.jar"]
