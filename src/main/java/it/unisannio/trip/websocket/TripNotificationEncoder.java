@@ -24,12 +24,8 @@ public class TripNotificationEncoder implements Encoder.Text<TripNotificationDTO
 	  }
 
 	  @Override
-	  public void init(EndpointConfig ec) {
-	    System.out.println("TripNotificationEncoder - init method called");
-	  }
+	  public void init(EndpointConfig ec) { }
 
 	  @Override
-	  public void destroy() {
-	    System.out.println("TripNotificationEncoder - destroy method called");
-	  }
+	  public void destroy() { }
 }

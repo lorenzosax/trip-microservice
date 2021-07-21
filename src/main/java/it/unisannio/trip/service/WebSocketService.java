@@ -3,11 +3,13 @@ package it.unisannio.trip.service;
 import it.unisannio.trip.model.Websocket;
 import it.unisannio.trip.repository.WebsocketRepository;
 import it.unisannio.trip.websocket.WebSocketClientNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.websocket.Session;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -15,8 +17,9 @@ import java.util.Optional;
 @Service
 public class WebSocketService {
 
-    @Value("${server.instance-id}")
-    private String instanceId;
+    private static final Logger logger = LoggerFactory.getLogger(WebSocketService.class);
+
+    private static final String instanceId = initializeInstanceId();
 
     private static Map<String, Session> peers = new HashMap<>();
 
@@ -28,14 +31,19 @@ public class WebSocketService {
     }
 
     public void addPeer(Session session) {
-        this.websocketRepository.save(new Websocket(preAppendInstanceToId(session.getId())));
-        peers.put(preAppendInstanceToId(session.getId()), session);
+        String id = preAppendInstanceToId(session.getId());
+        this.websocketRepository.save(new Websocket());
+        peers.put(id, session);
+        logger.info("New websocket opened: " + id);
     }
 
     public void removePeer(String sessionId) {
         Optional<Websocket> websocket =
                 this.websocketRepository.findByInstanceSessionIdAndRemove(preAppendInstanceToId(sessionId));
-        websocket.ifPresent(value -> peers.remove(value.getInstanceSessionId()));
+        websocket.ifPresent(value -> {
+            peers.remove(value.getInstanceSessionId());
+            logger.info("Websocket removed: " + value.getInstanceSessionId());
+        });
     }
 
     public void sendMessage(String tripId, Object msg) throws WebSocketClientNotFoundException {
@@ -45,6 +53,7 @@ public class WebSocketService {
             throw new WebSocketClientNotFoundException("WS identified by tripId: <" + tripId + "> is not present");
 
         peers.get(websocket.get().getInstanceSessionId()).getAsyncRemote().sendObject(msg);
+        logger.info("Message sent to websocket: " + websocket.get().getInstanceSessionId());
     }
 
     public void addRequestTripId(String sessionId, String tripId) {
@@ -58,5 +67,12 @@ public class WebSocketService {
 
     private String preAppendInstanceToId(String id) {
         return instanceId.concat("@").concat(id);
+    }
+
+    private static String initializeInstanceId() {
+        Timestamp t = new Timestamp(System.currentTimeMillis());
+        String instanceId = String.valueOf(t.getTime());
+        logger.info("Instance ID: " + instanceId);
+        return instanceId;
     }
 }

@@ -24,12 +24,8 @@ public class ConfirmationEncoder implements Encoder.Text<ConfirmationDTO>{
 	  }
 
 	  @Override
-	  public void init(EndpointConfig ec) {
-	    System.out.println("ConfirmationEncoder - init method called");
-	  }
+	  public void init(EndpointConfig ec) { }
 
 	  @Override
-	  public void destroy() {
-	    System.out.println("ConfirmationEncoder - destroy method called");
-	  }
+	  public void destroy() { }
 }

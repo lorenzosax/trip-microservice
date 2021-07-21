@@ -28,12 +28,8 @@ public class TripNotificationDecoder implements Decoder.Text<TripRequestDTO> {
     }
 
     @Override
-    public void init(EndpointConfig ec) {
-        System.out.println("TripNotificationDecoder - init method called");
-    }
+    public void init(EndpointConfig ec) { }
 
     @Override
-    public void destroy() {
-        System.out.println("TripNotificationDecoder - destroy method called");
-    }
+    public void destroy() { }
 }
