@@ -32,7 +32,7 @@ public class WebSocketService {
 
     public void addPeer(Session session) {
         String id = preAppendInstanceToId(session.getId());
-        this.websocketRepository.save(new Websocket());
+        this.websocketRepository.save(new Websocket(id));
         peers.put(id, session);
         logger.info("New websocket opened: " + id);
     }
