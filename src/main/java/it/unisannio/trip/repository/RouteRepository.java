@@ -14,5 +14,6 @@ public interface RouteRepository extends MongoRepository<Route, String> {
     @Query(value = "{ 'stations.nodeId': { $all: ?0 } }")
     Optional<List<Route>> findByStationIds(List<Integer> ids);
 
-    Optional<Route> findByStationId(Integer id);
+    @Query(value = "{ 'stations.nodeId': { $all: [?0] } }")
+    Optional<List<Route>> findByStationId(Integer id);
 }

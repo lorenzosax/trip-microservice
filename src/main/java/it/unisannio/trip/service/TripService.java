@@ -52,8 +52,8 @@ public class TripService {
             this.sendRequestToMOM(sessionId, tripRequestDTO);
             confirmation = new ConfirmationDTO(ConfirmationDTO.Status.APPROVED);
         } else {
-            Route routeSrc = this.routeService.getRouteByStationId(tripRequestDTO.getOsmidSource());
-            Route routeDst = this.routeService.getRouteByStationId(tripRequestDTO.getOsmidDestination());
+            Route routeSrc = this.routeService.getRouteByStationId(tripRequestDTO.getOsmidSource()).get(0);
+            Route routeDst = this.routeService.getRouteByStationId(tripRequestDTO.getOsmidDestination()).get(0);
 
             if(routeSrc != null && routeDst != null) {
                 List<Station> stations = routeSrc.getReachableRoutes().get(routeDst.getId());
