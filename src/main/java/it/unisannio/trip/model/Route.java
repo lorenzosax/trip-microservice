@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 
 @Document
@@ -13,6 +14,7 @@ public class Route implements Serializable {
     @Id
     private String id;
     private List<Station> stations;
+    private Map<String, List<Station>> reachableRoutes;
 
     public Route() {}
 
@@ -42,5 +44,13 @@ public class Route implements Serializable {
 
     public void setStations(List<Station> stations) {
         this.stations = stations;
+    }
+
+    public void setReachableRoutes(Map<String, List<Station>> reachableRoutes) {
+        this.reachableRoutes = reachableRoutes;
+    }
+
+    public Map<String, List<Station>> getReachableRoutes() {
+        return reachableRoutes;
     }
 }

@@ -43,13 +43,7 @@ public class WebSocketEndpoint {
 
     @OnMessage
     public void receive(Session session, TripRequestDTO tripRequestDTO) {
-        Trip tripRequest = tripService.sendRequestToMOM(session.getId(), tripRequestDTO);
-        ConfirmationDTO confirmation;
-        if (tripRequest == null) {
-            confirmation = new ConfirmationDTO(ConfirmationDTO.Status.REJECTED);
-        } else {
-            confirmation = new ConfirmationDTO(ConfirmationDTO.Status.APPROVED);
-        }
+        ConfirmationDTO confirmation = tripService.checkTripRequest(session.getId(), tripRequestDTO);
         session.getAsyncRemote().sendObject(confirmation);
     }
 

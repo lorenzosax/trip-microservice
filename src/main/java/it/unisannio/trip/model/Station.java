@@ -22,6 +22,14 @@ public class Station implements Serializable {
         this.position = position;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+
+        return ((Station) obj).getId().equals(this.id);
+    }
+
     public String getId() {
         return id;
     }
