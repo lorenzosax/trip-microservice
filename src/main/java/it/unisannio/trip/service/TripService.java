@@ -56,7 +56,7 @@ public class TripService {
             Route routeDst = this.routeService.getRoutesByStationId(tripRequestDTO.getOsmidDestination()).get(0);
 
             if(routeSrc != null && routeDst != null) {
-                List<Station> stations = routeSrc.getReachableRoutes().get(routeDst.getId());
+                List<Station> stations = routeSrc.getReachableRoutes().get(routeDst.getName());
                 if (stations != null && stations.size() > 0) {
                     if(stations.get(0).getNodeId().equals(tripRequestDTO.getOsmidSource())) {
                         // when start station is identical to first station in map

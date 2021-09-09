@@ -13,6 +13,7 @@ public class Route implements Serializable {
 
     @Id
     private String id;
+    private String name;
     private List<Station> stations;
     private Map<String, List<Station>> reachableRoutes;
 
@@ -36,6 +37,14 @@ public class Route implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Station> getStations() {
