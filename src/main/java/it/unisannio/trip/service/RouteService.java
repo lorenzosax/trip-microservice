@@ -36,7 +36,7 @@ public class RouteService {
         return routes.orElse(null);
     }
 
-    public List<Route> getRouteByStationId(Integer stationId) {
+    public List<Route> getRoutesByStationId(Integer stationId) {
         Optional<List<Route>> routes = this.routeRepository.findByStationId(stationId);
         return routes.orElse(null);
     }

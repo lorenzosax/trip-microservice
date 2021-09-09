@@ -52,12 +52,16 @@ public class TripService {
             this.sendRequestToMOM(sessionId, tripRequestDTO);
             confirmation = new ConfirmationDTO(ConfirmationDTO.Status.APPROVED);
         } else {
-            Route routeSrc = this.routeService.getRouteByStationId(tripRequestDTO.getOsmidSource()).get(0);
-            Route routeDst = this.routeService.getRouteByStationId(tripRequestDTO.getOsmidDestination()).get(0);
+            Route routeSrc = this.routeService.getRoutesByStationId(tripRequestDTO.getOsmidSource()).get(0);
+            Route routeDst = this.routeService.getRoutesByStationId(tripRequestDTO.getOsmidDestination()).get(0);
 
             if(routeSrc != null && routeDst != null) {
                 List<Station> stations = routeSrc.getReachableRoutes().get(routeDst.getId());
                 if (stations != null && stations.size() > 0) {
+                    if(stations.get(0).getNodeId().equals(tripRequestDTO.getOsmidSource())) {
+                        // when start station is identical to first station in map
+                        stations.remove(0);
+                    }
                     List<TripDTO> trips = new ArrayList<TripDTO>();
 
                     TripDTO tripDTO = new TripDTO();
