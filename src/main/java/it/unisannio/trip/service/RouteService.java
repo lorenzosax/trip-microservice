@@ -47,7 +47,7 @@ public class RouteService {
             for (StationDTO st : route.getStations()) {
                 stationList.add(new Station(st.getNodeId(), st.getPosition()));
             }
-            this.routeRepository.insert(new Route(stationList));
+            this.routeRepository.insert(new Route(route.getName(), stationList, route.getReachableRoutes()));
         }
     }
 

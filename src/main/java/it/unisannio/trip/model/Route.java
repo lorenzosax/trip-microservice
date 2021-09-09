@@ -19,8 +19,10 @@ public class Route implements Serializable {
 
     public Route() {}
 
-    public Route(List<Station> stations) {
+    public Route(String name, List<Station> stations, Map<String, List<Station>> reachableRoutes) {
+        this.name = name;
         this.stations = stations;
+        this.reachableRoutes = reachableRoutes;
     }
 
     @Override
