@@ -12,19 +12,17 @@ public class Trip implements Serializable {
 
     @Id
     private String id;
-    private Integer source;
-    private Integer destination;
+    private Station source;
+    private Station destination;
     private Date requestDate = new Date();
-    private Integer vehicleId;
 
     public Trip() {}
 
-    public Trip(String id, Integer source, Integer destination, Date requestDate, Integer vehicleId) {
+    public Trip(String id, Station source, Station destination, Date requestDate) {
         this.id = id;
         this.source = source;
         this.destination = destination;
         this.requestDate = requestDate;
-        this.vehicleId = vehicleId;
     }
 
     public String getId() {
@@ -35,19 +33,19 @@ public class Trip implements Serializable {
         this.id = id;
     }
 
-    public Integer getSource() {
+    public Station getSource() {
         return source;
     }
 
-    public void setSource(Integer source) {
+    public void setSource(Station source) {
         this.source = source;
     }
 
-    public Integer getDestination() {
+    public Station getDestination() {
         return destination;
     }
 
-    public void setDestination(Integer destination) {
+    public void setDestination(Station destination) {
         this.destination = destination;
     }
 
@@ -57,13 +55,5 @@ public class Trip implements Serializable {
 
     public void setRequestDate(Date requestDate) {
         this.requestDate = requestDate;
-    }
-
-    public Integer getVehicleId() {
-        return vehicleId;
-    }
-
-    public void setVehicleId(Integer vehicleId) {
-        this.vehicleId = vehicleId;
     }
 }

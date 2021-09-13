@@ -2,12 +2,12 @@ package it.unisannio.trip.websocket;
 
 import it.unisannio.trip.dto.ConfirmationDTO;
 import it.unisannio.trip.dto.TripRequestDTO;
-import it.unisannio.trip.model.Trip;
 import it.unisannio.trip.service.TripService;
 import it.unisannio.trip.service.WebSocketService;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -42,6 +42,7 @@ public class WebSocketEndpoint {
     }
 
     @OnMessage
+    @Transactional
     public void receive(Session session, TripRequestDTO tripRequestDTO) {
         ConfirmationDTO confirmation = tripService.checkTripRequest(session.getId(), tripRequestDTO);
         session.getAsyncRemote().sendObject(confirmation);

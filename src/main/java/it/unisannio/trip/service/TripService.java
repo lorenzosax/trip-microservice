@@ -1,17 +1,17 @@
 package it.unisannio.trip.service;
 
 import it.unisannio.trip.dto.ConfirmationDTO;
+import it.unisannio.trip.dto.StationDTO;
 import it.unisannio.trip.dto.TripRequestDTO;
-import it.unisannio.trip.dto.internal.RouteStatsDTO;
-import it.unisannio.trip.dto.internal.StationStatsDTO;
-import it.unisannio.trip.dto.internal.StatisticsDTO;
-import it.unisannio.trip.dto.internal.TripDTO;
+import it.unisannio.trip.dto.internal.*;
 import it.unisannio.trip.model.Route;
 import it.unisannio.trip.model.Station;
 import it.unisannio.trip.model.Trip;
 import it.unisannio.trip.repository.TripRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -32,17 +32,24 @@ public class TripService {
         this.routeService = routeService;
     }
 
-    private Trip sendRequestToMOM(String sessionId, TripRequestDTO requestDTO) {
+    @Transactional(propagation = Propagation.MANDATORY)
+    public Trip sendRequestToMOM(String sessionId, TripRequestDTO requestDTO) {
 
         Trip trip = new Trip();
-        trip.setSource(requestDTO.getOsmidSource());
-        trip.setDestination(requestDTO.getOsmidDestination());
+
+        StationDTO srcStationDTO = this.routeService.getStationInfo(requestDTO.getOsmidSource());
+        StationDTO dstStationDTO = this.routeService.getStationInfo(requestDTO.getOsmidDestination());
+
+        trip.setSource(new Station(srcStationDTO.getNodeId(), srcStationDTO.getPosition()));
+        trip.setDestination(new Station(dstStationDTO.getNodeId(), dstStationDTO.getPosition()));
+
         trip = this.tripRepository.save(trip);
         this.artemisService.sendTrip(sessionId, trip);
 
         return trip;
     }
 
+    @Transactional
     public ConfirmationDTO checkTripRequest(String sessionId, TripRequestDTO tripRequestDTO) {
 
         ConfirmationDTO confirmation = null;
@@ -51,6 +58,7 @@ public class TripService {
         if(routes != null && routes.size() == 1) {
             this.sendRequestToMOM(sessionId, tripRequestDTO);
             confirmation = new ConfirmationDTO(ConfirmationDTO.Status.APPROVED);
+            // TODO send trip request to Messina!
         } else {
             Route routeSrc = this.routeService.getRoutesByStationId(tripRequestDTO.getOsmidSource()).get(0);
             Route routeDst = this.routeService.getRoutesByStationId(tripRequestDTO.getOsmidDestination()).get(0);

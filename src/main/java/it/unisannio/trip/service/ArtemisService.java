@@ -16,6 +16,7 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -42,13 +43,13 @@ public class ArtemisService {
         this.objectMapper = objectMapper;
     }
 
+    @Transactional
     public void sendTrip(String sessionId, Trip trip){
         TripDTO tripDTO = new TripDTO();
         tripDTO.setId(trip.getId());
-        tripDTO.setSource(trip.getSource());
-        tripDTO.setDestination(trip.getDestination());
+        tripDTO.setSource(trip.getSource().getNodeId());
+        tripDTO.setDestination(trip.getDestination().getNodeId());
         tripDTO.setRequestDate(trip.getRequestDate());
-        tripDTO.setVehicleId(trip.getVehicleId());
 
         this.webSocketService.addRequestTripId(sessionId, trip.getId());
         jmsTemplate.convertAndSend(tripRequestTopic, tripDTO);

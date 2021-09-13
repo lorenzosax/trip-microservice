@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.websocket.Session;
 import java.sql.Timestamp;
@@ -56,6 +57,7 @@ public class WebSocketService {
         logger.info("Message sent to websocket: " + websocket.get().getInstanceSessionId());
     }
 
+    @Transactional
     public void addRequestTripId(String sessionId, String tripId) {
         Optional<Websocket> websocket =
                 this.websocketRepository.findByInstanceSessionId(preAppendInstanceToId(sessionId));

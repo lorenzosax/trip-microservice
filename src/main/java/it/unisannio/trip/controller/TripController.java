@@ -1,6 +1,5 @@
 package it.unisannio.trip.controller;
 
-import it.unisannio.trip.dto.TripRequestDTO;
 import it.unisannio.trip.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

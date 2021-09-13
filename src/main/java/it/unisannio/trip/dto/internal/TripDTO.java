@@ -12,7 +12,6 @@ public class TripDTO implements Serializable {
     private Integer source;
     private Integer destination;
     private Date requestDate;
-    private Integer vehicleId;
 
     public TripDTO() {}
 
@@ -21,7 +20,6 @@ public class TripDTO implements Serializable {
         this.source = source;
         this.destination = destination;
         this.requestDate = requestDate;
-        this.vehicleId = vehicleId;
     }
 
     public String getId() {
@@ -54,13 +52,5 @@ public class TripDTO implements Serializable {
 
     public void setRequestDate(Date requestDate) {
         this.requestDate = requestDate;
-    }
-
-    public Integer getVehicleId() {
-        return vehicleId;
-    }
-
-    public void setVehicleId(Integer vehicleId) {
-        this.vehicleId = vehicleId;
     }
 }
