@@ -15,6 +15,7 @@ public class Trip implements Serializable {
     private Station source;
     private Station destination;
     private Date requestDate = new Date();
+    private String licensePlate;
 
     public Trip() {}
 
@@ -55,5 +56,13 @@ public class Trip implements Serializable {
 
     public void setRequestDate(Date requestDate) {
         this.requestDate = requestDate;
+    }
+
+    public String getLicensePlate() {
+        return licensePlate;
+    }
+
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
     }
 }

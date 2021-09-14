@@ -96,6 +96,13 @@ public class TripService {
         return confirmation;
     }
 
+    public void updateTripWithVehicleLicensePlate(String tripId, String vehicleLicensePlate) {
+        Optional<Trip> trip = this.tripRepository.findById(tripId);
+        if (trip.isPresent()) {
+            trip.get().setLicensePlate(vehicleLicensePlate);
+            this.tripRepository.save(trip.get());
+        }
+    }
 
     public StatisticsDTO getStatistics() {
         Date yesterday = getDate24HoursAgo();

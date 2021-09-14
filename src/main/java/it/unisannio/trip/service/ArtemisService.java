@@ -33,13 +33,15 @@ public class ArtemisService {
 
     private JmsTemplate jmsTemplate;
     private WebSocketService webSocketService;
+    private TripService tripService;
     private ObjectMapper objectMapper;
 
 
     @Autowired
-    public ArtemisService(JmsTemplate jmsTemplate, WebSocketService webSocketService, ObjectMapper objectMapper) {
+    public ArtemisService(JmsTemplate jmsTemplate, WebSocketService webSocketService, TripService tripService, ObjectMapper objectMapper) {
         this.jmsTemplate = jmsTemplate;
         this.webSocketService = webSocketService;
+        this.tripService = tripService;
         this.objectMapper = objectMapper;
     }
 
@@ -62,6 +64,7 @@ public class ArtemisService {
         try {
             String json = ((TextMessage) message).getText();
             TripNotificationDTO tripNotification = objectMapper.readValue(json, TripNotificationDTO.class);
+            this.tripService.updateTripWithVehicleLicensePlate(tripNotification.getTripId(), tripNotification.getVehicleLicensePlate());
             this.webSocketService.sendMessage(tripNotification.getTripId(), tripNotification);
 
             logger.debug("TripNotification sent correctly to client");
