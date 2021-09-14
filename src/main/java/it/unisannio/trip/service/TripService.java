@@ -3,6 +3,7 @@ package it.unisannio.trip.service;
 import it.unisannio.trip.dto.ConfirmationDTO;
 import it.unisannio.trip.dto.StationDTO;
 import it.unisannio.trip.dto.TripRequestDTO;
+import it.unisannio.trip.dto.external.MessinaBookingRequestDTO;
 import it.unisannio.trip.dto.internal.*;
 import it.unisannio.trip.model.Route;
 import it.unisannio.trip.model.Station;
@@ -22,18 +23,20 @@ public class TripService {
 
     private TripRepository tripRepository;
     private ArtemisService artemisService;
+    private MessinaService messinaService;
     private RouteService routeService;
     private Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
     @Autowired
-    public TripService(TripRepository tripRepository, ArtemisService artemisService, RouteService routeService) {
+    public TripService(TripRepository tripRepository, ArtemisService artemisService, MessinaService messinaService, RouteService routeService) {
         this.tripRepository = tripRepository;
         this.artemisService = artemisService;
+        this.messinaService = messinaService;
         this.routeService = routeService;
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
-    public Trip sendRequestToMOM(String sessionId, TripRequestDTO requestDTO) {
+    public Trip sendRequestToExternal(String sessionId, TripRequestDTO requestDTO) {
 
         Trip trip = new Trip();
 
@@ -45,6 +48,7 @@ public class TripService {
 
         trip = this.tripRepository.save(trip);
         this.artemisService.sendTrip(sessionId, trip);
+        this.messinaService.sendBookingRequest(new MessinaBookingRequestDTO(trip.getSource(), trip.getDestination(), trip.getRequestDate()));
 
         return trip;
     }
@@ -56,9 +60,8 @@ public class TripService {
 
         List<Route> routes = this.routeService.getRoutesWithStationIds(List.of(tripRequestDTO.getOsmidSource(), tripRequestDTO.getOsmidDestination()));
         if(routes != null && routes.size() == 1) {
-            this.sendRequestToMOM(sessionId, tripRequestDTO);
+            this.sendRequestToExternal(sessionId, tripRequestDTO);
             confirmation = new ConfirmationDTO(ConfirmationDTO.Status.APPROVED);
-            // TODO send trip request to Messina!
         } else {
             Route routeSrc = this.routeService.getRoutesByStationId(tripRequestDTO.getOsmidSource()).get(0);
             Route routeDst = this.routeService.getRoutesByStationId(tripRequestDTO.getOsmidDestination()).get(0);
