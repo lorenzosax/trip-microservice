@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
-@FeignClient(name = "messinaServiceFeignClient", url = "${api.external.prediction.base-url}")
+@FeignClient(name = "messinaServiceFeignClient", url = "${api.external.messina.base-url}")
 public interface MessinaService {
 
     @PostMapping("/insertBookingDocument")
