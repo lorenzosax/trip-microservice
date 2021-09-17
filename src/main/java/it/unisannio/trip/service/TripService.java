@@ -48,7 +48,7 @@ public class TripService {
 
         trip = this.tripRepository.save(trip);
         this.artemisService.sendTrip(sessionId, trip);
-        this.messinaService.sendBookingRequest(new MessinaBookingRequestDTO(trip.getSource(), trip.getDestination(), trip.getRequestDate()));
+        // this.messinaService.sendBookingRequest(new MessinaBookingRequestDTO(trip.getSource(), trip.getDestination(), trip.getRequestDate()));
 
         return trip;
     }
